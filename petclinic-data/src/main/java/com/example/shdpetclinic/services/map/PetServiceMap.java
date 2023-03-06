@@ -1,11 +1,11 @@
 package com.example.shdpetclinic.services.map;
 
 import com.example.shdpetclinic.model.Pet;
-import com.example.shdpetclinic.services.CrudService;
+import com.example.shdpetclinic.services.PetService;
 
 import java.util.Set;
 
-public class PetServiceMap extends AbstractMapService<Pet, Long> implements CrudService<Pet, Long> {
+public class PetServiceMap extends AbstractMapService<Pet, Long> implements PetService {
 
     @Override
     public Pet save(Pet object) {
