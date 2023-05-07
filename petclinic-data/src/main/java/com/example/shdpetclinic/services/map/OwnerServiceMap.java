@@ -1,7 +1,10 @@
 package com.example.shdpetclinic.services.map;
 
 import com.example.shdpetclinic.model.Owner;
+import com.example.shdpetclinic.model.Pet;
 import com.example.shdpetclinic.services.OwnerService;
+import com.example.shdpetclinic.services.PetService;
+import com.example.shdpetclinic.services.PetTypeService;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -9,9 +12,40 @@ import java.util.Set;
 @Service
 public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements OwnerService {
 
+    private final PetTypeService petTypeService;
+    private final PetService petService;
+
+    public OwnerServiceMap(PetTypeService petTypeService, PetService petService) {
+        this.petTypeService = petTypeService;
+        this.petService = petService;
+    }
+
     @Override
     public Owner save(Owner object) {
-        return super.save(object);
+        if(object != null) {
+            if(object.getPets() != null) {
+                object.getPets().forEach(pet -> {
+                    if(pet.getPetType() != null ) {
+                        if(pet.getPetType().getId() == null) {
+                            pet.setPetType(petTypeService.save(pet.getPetType()));
+                        }
+                    }
+                    else {
+                        throw new RuntimeException("Pet Type cannot be null");
+                    }
+
+                    if(pet.getId() == null) {
+                        Pet savedPet = petService.save(pet);
+                        pet.setId(savedPet.getId());
+                    }
+                });
+            }
+
+            return super.save(object);
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
