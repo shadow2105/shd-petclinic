@@ -90,17 +90,20 @@ public class DataLoader implements CommandLineRunner {
         ow2Pet1.setOwner(owner2);
         ow2Pet1.setBirthDate(LocalDate.now());
         ow2Pet1.setName("Lucy");
-        owner1.getPets().add(ow2Pet1);
+        owner2.getPets().add(ow2Pet1);
+
+        ownerService.save(owner2);
+
+        System.out.println("<<< Loaded Owners ! >>>");
 
         Visit ow2Pet1Visit1 = new Visit();
         ow2Pet1Visit1.setDate(LocalDate.now());
         ow2Pet1Visit1.setDescription("Sneezing Cat");
         ow2Pet1Visit1.setPet(ow2Pet1);
-        ow2Pet1.getVisits().add(ow2Pet1Visit1);
 
-        ownerService.save(owner2);
+        visitService.save(ow2Pet1Visit1);
 
-        System.out.println("<<< Loaded Owners ! >>>");
+        System.out.println("<<< Loaded Visits ! >>>");
 
         Vet vet1 = new Vet();
         vet1.setFirstName("Sam");
