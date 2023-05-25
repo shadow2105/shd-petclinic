@@ -1,10 +1,7 @@
 package com.example.shdpetclinic.bootstrap;
 
 import com.example.shdpetclinic.model.*;
-import com.example.shdpetclinic.services.OwnerService;
-import com.example.shdpetclinic.services.PetTypeService;
-import com.example.shdpetclinic.services.SpecialityService;
-import com.example.shdpetclinic.services.VetService;
+import com.example.shdpetclinic.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +15,14 @@ public class DataLoader implements CommandLineRunner {
     private final PetTypeService petTypeService;
 
     private final SpecialityService specialityService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialityService = specialityService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -92,6 +91,12 @@ public class DataLoader implements CommandLineRunner {
         ow2Pet1.setBirthDate(LocalDate.now());
         ow2Pet1.setName("Lucy");
         owner1.getPets().add(ow2Pet1);
+
+        Visit ow2Pet1Visit1 = new Visit();
+        ow2Pet1Visit1.setDate(LocalDate.now());
+        ow2Pet1Visit1.setDescription("Sneezing Cat");
+        ow2Pet1Visit1.setPet(ow2Pet1);
+        ow2Pet1.getVisits().add(ow2Pet1Visit1);
 
         ownerService.save(owner2);
 
